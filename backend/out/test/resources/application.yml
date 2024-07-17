@@ -1,0 +1,27 @@
+
+server:
+  port: 0
+
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: monitoring
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/mialuce?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: 'create'
+    show-sql: true
+    generate-ddl: true
+    default_batch_fetch_size: 100 #성능 최적화
+
+
