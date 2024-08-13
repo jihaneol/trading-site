@@ -2,6 +2,11 @@
 server:
   port: 8080
 
+  servlet:
+    encoding:
+      force-response: true
+      charset: UTF-8
+      enabled: true
 spring:
   application:
     name: trade_site
@@ -13,7 +18,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: 'create'
+      ddl-auto: 'update'
     show-sql: true
     generate-ddl: true
     default_batch_fetch_size: 100 #?? ???

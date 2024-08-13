@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>게시글 작성</title>
+    <style>
+      div {
+        width: 500px;
+        text-align: right;
+        border: 1px dotted black;
+        vertical-align: top;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/board/save" method="post">
+      <div>writer : <input type="text" name="boardWriter" /></div>
+      <div>pass : <input type="text" name="boardPass" /></div>
+      <div>title : <input type="text" name="boardTitle" /></div>
+      <div>
+        contents :
+        <textarea name="boardContents" id="" cols="30" rows="10"></textarea>
+      </div>
+      <div><input type="submit" value="글작성" /></div>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>게시글 수정</title>
+  </head>
+  <body>
+    <form action="/board/update" th:object="${board}" method="post">
+      <div class="form-group">
+        <input type="hidden" th:field="*{id}" />
+
+        <label for="boardWriter">작성자</label>
+        <input
+          type="text"
+          th:field="*{boardWriter}"
+          class="form-control"
+          readonly
+        />
+
+        <label for="boardPass">비밀번호</label>
+        <input
+          type="text"
+          th:field="*{boardPass}"
+          value=""
+          class="form-control"
+        />
+
+        <label for="boardTitle">제목</label>
+        <input type="text" th:field="*{boardTitle}" class="form-control" />
+
+        <label for="boardContents">내용</label>
+        <textarea
+          name="boardContents"
+          id="boardContents"
+          th:text="*{boardContents}"
+        ></textarea>
+        <input type="hidden" th:field="*{boardHit}" />
+        <input type="submit" value="글작성" />
+      </div>
+    </form>
+  </body>
+</html>
