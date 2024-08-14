@@ -13,13 +13,17 @@
     </style>
   </head>
   <body>
-    <form action="/board/save" method="post">
+    <form action="/board/save" method="post" enctype="multipart/form-data">
       <div>writer : <input type="text" name="boardWriter" /></div>
       <div>pass : <input type="text" name="boardPass" /></div>
       <div>title : <input type="text" name="boardTitle" /></div>
       <div>
         contents :
         <textarea name="boardContents" id="" cols="30" rows="10"></textarea>
+      </div>
+      <div>
+        <label for="boardFile">file:</label>
+        <input type="file" name="boardFile" id="boardFile" multiple/>
       </div>
       <div><input type="submit" value="글작성" /></div>
     </form>

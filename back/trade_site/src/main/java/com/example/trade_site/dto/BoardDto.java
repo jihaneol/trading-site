@@ -1,20 +1,26 @@
 package com.example.trade_site.dto;
 
 import com.example.trade_site.entity.BoardEntity;
+import com.example.trade_site.entity.BoardFileEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.cglib.core.Local;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BoardDto {
     private Long id;
     @NotNull(message = "작성자는 필수 입니다.")
@@ -30,13 +36,40 @@ public class BoardDto {
     private LocalDateTime boardCreatedTime;
     private int boardHit;
 
+    private List<MultipartFile> boardFile;
+    private List<String> originalFileName;
+    private List<String> storedFileName;
+    private int fileAttached;
+
     public static BoardDto entityToResponse(BoardEntity boardEntity){
+        if(boardEntity.getFileAttached()==1){
+
+            List<String> origin = new ArrayList<>();
+            List<String> stored = new ArrayList<>();
+
+           for(BoardFileEntity file : boardEntity.getBoardFileEntityList())  {
+               origin.add(file.getOriginalFileName());
+               stored.add(file.getStoredFileName());
+           }
+
+            return BoardDto.builder()
+                    .id(boardEntity.getId())
+                    .boardWriter(boardEntity.getBoardWriter())
+                    .boardTitle(boardEntity.getBoardTitle())
+                    .boardCreatedTime(boardEntity.getCreatedTime())
+                    .boardHit(boardEntity.getBoardHit())
+                    .storedFileName(stored)
+                    .originalFileName(origin)
+                    .fileAttached(1)
+                    .build();
+        }
         return BoardDto.builder()
                 .id(boardEntity.getId())
                 .boardWriter(boardEntity.getBoardWriter())
                 .boardTitle(boardEntity.getBoardTitle())
                 .boardCreatedTime(boardEntity.getCreatedTime())
                 .boardHit(boardEntity.getBoardHit())
+                .fileAttached(0)
                 .build();
     }
 

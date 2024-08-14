@@ -2,8 +2,9 @@ package com.example.trade_site.service;
 
 import com.example.trade_site.dto.BoardDto;
 import com.example.trade_site.entity.BoardEntity;
+import com.example.trade_site.entity.BoardFileEntity;
 import com.example.trade_site.repository.BoardRepository;
-import jakarta.validation.Valid;
+import com.example.trade_site.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,24 +12,44 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService{
     private final BoardRepository boardRepository;
+    private final FileRepository fileRepository;
 
     @Override
-    public BoardDto save(@Valid  BoardDto boardDto) {
+    public void save(BoardDto boardDto) throws IOException {
+        List<MultipartFile> boardFileList = boardDto.getBoardFile();
+        if(boardFileList.isEmpty()){
+            BoardEntity saveEntity = BoardEntity.toSaveEntity(boardDto);
 
-        BoardEntity saveEntity = BoardEntity.toSaveEntity(boardDto);
+            BoardEntity save = boardRepository.save(saveEntity);
 
-        BoardEntity save = boardRepository.save(saveEntity);
+        }
 
-        return BoardDto.entityToResponse(save);
+        BoardEntity saveFileEntity = BoardEntity.toSaveFileEntity(boardDto);
+        BoardEntity boardEntity = boardRepository.save(saveFileEntity);
+
+        for(MultipartFile boardFile : boardFileList){
+            String originalFileName = boardFile.getOriginalFilename();
+            String storedFileName = UUID.randomUUID().toString() + "_" + originalFileName;
+
+            String savePath = "C:/springboot_img/" + storedFileName;
+
+            boardFile.transferTo(new File(savePath));
+
+            BoardFileEntity boardFileEntity = BoardFileEntity.saveToEntity(boardEntity, originalFileName, storedFileName);
+            fileRepository.save(boardFileEntity);
+        }
     }
 
     @Override

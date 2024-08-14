@@ -28,6 +28,13 @@
           th:text="${#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"
         ></td>
       </tr>
+
+      <tr th:if="${board.fileAttached==1}">
+        <th>이미지</th>
+        <td th:each="fileName: ${board.storedFileName}">
+          <img th:src="@{|/upload/${fileName}|}" />
+        </td>
+      </tr>
     </table>
     <button onclick="listReq()">목록</button>
     <button onclick="updateReq()">수정</button>

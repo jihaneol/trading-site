@@ -5,8 +5,10 @@ import com.example.trade_site.dto.BoardDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
+
 public interface BoardService {
-    BoardDto save(BoardDto boardDto);
+    void save(BoardDto boardDto) throws IOException;
 
     Page<BoardDto> getAllBoard(Pageable pageable);
 

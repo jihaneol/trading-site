@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -34,12 +37,29 @@ public class BoardEntity extends BaseEntity {
     @ColumnDefault("0")
     private int boardHit;
 
-    public static BoardEntity toSaveEntity(BoardDto boardDto){
+    @Column
+    private int fileAttached; //미첨부 0, 첨부 1
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
+
+    public static BoardEntity toSaveEntity(BoardDto boardDto) {
         return BoardEntity.builder()
                 .boardWriter(boardDto.getBoardWriter())
                 .boardPass(boardDto.getBoardPass())
                 .boardTitle(boardDto.getBoardTitle())
                 .boardContents(boardDto.getBoardContents())
+                .fileAttached(0)
+                .build();
+    }
+
+    public static BoardEntity toSaveFileEntity(BoardDto boardDto) {
+        return BoardEntity.builder()
+                .boardWriter(boardDto.getBoardWriter())
+                .boardPass(boardDto.getBoardPass())
+                .boardTitle(boardDto.getBoardTitle())
+                .boardContents(boardDto.getBoardContents())
+                .fileAttached(1)
                 .build();
     }
 

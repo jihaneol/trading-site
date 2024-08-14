@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -25,8 +26,8 @@ public class BoardController {
     }
 
     @PostMapping("/save")
-    public String createBoard(BoardDto boardDto) {
-        BoardDto save = boardService.save(boardDto);
+    public String createBoard(@Valid BoardDto boardDto) throws IOException {
+        boardService.save(boardDto);
         return "index";
     }
 
