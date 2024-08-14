@@ -35,7 +35,7 @@
   </body>
   <script th:inline="javascript">
     const listReq = () => {
-      location.href = "/board/";
+      location.href = "/board?page=" + [[${page}]];
     };
     const updateReq = () => {
         const id = [[${board.id}]];

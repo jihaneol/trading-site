@@ -2,16 +2,19 @@ package com.example.trade_site.service;
 
 import com.example.trade_site.dto.BoardDto;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BoardService {
     BoardDto save(BoardDto boardDto);
 
-    List<BoardDto> getAllBoard();
+    Page<BoardDto> getAllBoard(Pageable pageable);
 
     BoardDto getBoard(Long id);
 
     BoardDto getUpdateBoard(Long id);
 
     BoardDto updateBoard(BoardDto boardDto);
+
+    void deleteBoard(Long id);
 }
