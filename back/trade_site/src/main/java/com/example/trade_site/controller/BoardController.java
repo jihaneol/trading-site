@@ -1,7 +1,9 @@
 package com.example.trade_site.controller;
 
 import com.example.trade_site.dto.BoardDto;
+import com.example.trade_site.dto.CommentDto;
 import com.example.trade_site.service.BoardService;
+import com.example.trade_site.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/save")
     public String saveForm() {
@@ -48,6 +51,8 @@ public class BoardController {
     public String getDetailBoard(Model model, @PathVariable Long id,
                                  @PageableDefault(page = 1) Pageable pageable) {
         BoardDto board = boardService.getBoard(id);
+        List<CommentDto> commentDtoList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDtoList);
         model.addAttribute("board", board);
         model.addAttribute("page",pageable.getPageNumber());
         return "detail";

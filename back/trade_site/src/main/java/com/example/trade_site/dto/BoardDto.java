@@ -29,9 +29,9 @@ public class BoardDto {
     @Size(min = 8, max = 20, message = "비밀 번호는 8~20자 입니다.")
     private String boardPass;
 
-    @Max(value = 50, message = "50자 이하 작성")
+    @Size(max = 50, message = "최대 50자 입니다.")
     private String boardTitle;
-    @Max(value = 500, message = "500자 이하 작성")
+    @Size(max = 500, message = "최대 500자 입니다.")
     private String boardContents;
     private LocalDateTime boardCreatedTime;
     private int boardHit;
